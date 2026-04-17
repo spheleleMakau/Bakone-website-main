@@ -1,0 +1,95 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block navbar %}{{ block.super }}{% endblock %}
+{% block content %}
+<section class="contact-section">
+    <div class="container contact-wrapper">
+        <div class="contact-card">
+            <div class="contact-copy">
+                <span class="eyebrow">Get in Touch</span>
+                <h2>Contact Bakone Trading & Projects</h2>
+                <p>Ready to transform your operations? Our expert team is here to discuss your project requirements and provide tailored solutions that drive results.</p>
+            </div>
+            <form class="contact-form">
+                <div class="form-grid">
+                    <label class="form-field">
+                        <span>Full Name</span>
+                        <input type="text" name="name" placeholder="Your Full Name" required>
+                    </label>
+                    <label class="form-field">
+                        <span>Company</span>
+                        <input type="text" name="company" placeholder="Company Name">
+                    </label>
+                    <label class="form-field">
+                        <span>Email Address</span>
+                        <input type="email" name="email" placeholder="your.email@company.com" required>
+                    </label>
+                    <label class="form-field">
+                        <span>Phone Number</span>
+                        <input type="tel" name="phone" placeholder="+27 XX XXX XXXX">
+                    </label>
+                    <label class="form-field full-width">
+                        <span>Services of Interest</span>
+                        <div class="services-checkboxes">
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="services[]" value="farming">
+                                <span class="checkmark"></span>
+                                Agricultural Operations
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="services[]" value="ohs">
+                                <span class="checkmark"></span>
+                                Occupational Health & Safety
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="services[]" value="construction">
+                                <span class="checkmark"></span>
+                                Construction Management
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="services[]" value="logistics">
+                                <span class="checkmark"></span>
+                                Logistics & Transportation
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="services[]" value="training">
+                                <span class="checkmark"></span>
+                                Training & Certification
+                            </label>
+                            <label class="checkbox-option">
+                                <input type="checkbox" name="services[]" value="other">
+                                <span class="checkmark"></span>
+                                Other
+                            </label>
+                        </div>
+                    </label>
+                    <label class="form-field full-width">
+                        <span>Project Details</span>
+                        <textarea name="message" placeholder="Please describe your project requirements, timeline, and any specific questions..." rows="6" required></textarea>
+                    </label>
+                </div>
+                <button type="submit" class="btn-primary">Send Message</button>
+            </form>
+            <div class="contact-details">
+                <div class="contact-info">
+                    <h3>Office Information</h3>
+                    <p><strong>Email:</strong> info@bakonetrading.co.za</p>
+                    <p><strong>Phone:</strong> +27 64 687 1657</p>
+                    <p><strong>Business Hours:</strong> Monday - Friday, 8:00 AM - 5:00 PM</p>
+                </div>
+                <div class="contact-address">
+                    <h3>Physical Address</h3>
+                    <p>123 Corporate Avenue<br>
+                
+                    Johannesburg, 0000<br>
+                    South Africa</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+
+
+{% endblock %}
+{% block footer %}{{ block.super }}{% endblock %}

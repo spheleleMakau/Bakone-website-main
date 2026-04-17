@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block navbar %}{{ block.super }}{% endblock %}
+{% block content %}
+<section class="services-section">
+    <div class="container">
+        <div class="section-copy">
+            <span class="eyebrow">Our Services</span>
+            <h2>Comprehensive Solutions for Modern Business</h2>
+            <p>At Bakone Trading & Projects, we deliver end-to-end solutions across multiple industries, combining expertise, innovation, and commitment to excellence.</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card">
+                <h3>Agricultural Operations</h3>
+                <p>Expert farming management and agricultural consulting services. We provide sustainable farming solutions, crop management, and agricultural technology implementation to maximize yield and efficiency.</p>
+                <ul>
+                    <li>Crop planning and management</li>
+                    <li>Sustainable farming practices</li>
+                    <li>Agricultural technology integration</li>
+                    <li>Yield optimization strategies</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <h3>Occupational Health & Safety</h3>
+                <p>Comprehensive OHS management systems and workplace safety solutions. Our certified professionals ensure compliance with all regulatory requirements and create safer work environments.</p>
+                <ul>
+                    <li>Risk assessments and audits</li>
+                    <li>Safety management systems</li>
+                    <li>Training and certification</li>
+                    <li>Compliance monitoring</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <h3>Construction Management</h3>
+                <p>Full-service construction project management from inception to completion. We handle residential, commercial, and industrial projects with precision and quality assurance.</p>
+                <ul>
+                    <li>Project planning and execution</li>
+                    <li>Quality control and assurance</li>
+                    <li>Budget and timeline management</li>
+                    <li>Regulatory compliance</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <h3>Logistics & Transportation</h3>
+                <p>Efficient supply chain and transportation solutions. Our logistics expertise ensures timely delivery, cost optimization, and seamless operations across all transportation modes.</p>
+                <ul>
+                    <li>Supply chain optimization</li>
+                    <li>Fleet management</li>
+                    <li>Warehouse solutions</li>
+                    <li>International shipping</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block footer %}{{ block.super }}{% endblock %}

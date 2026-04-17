@@ -1,0 +1,57 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block navbar %}{{ block.super }}{% endblock %}
+{% block content %}
+<section class="training-section">
+    <div class="container">
+        <div class="section-copy">
+            <span class="eyebrow">Training & Certification</span>
+            <h2>Skills That Drive Success</h2>
+            <p>Transform your team's potential with industry-leading training programs. From safety certifications to leadership development, we deliver practical skills that deliver real results.</p>
+        </div>
+        <div class="services-grid">
+            <div class="service-card">
+                <h3>Industry Training</h3>
+                <p>Hands-on skills for your specific sector with practical applications and real-world scenarios. Our industry experts provide tailored training that addresses your unique operational challenges.</p>
+                <ul>
+                    <li>Construction safety protocols</li>
+                    <li>Agricultural best practices</li>
+                    <li>Logistics and supply chain management</li>
+                    <li>Equipment operation and maintenance</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <h3>Professional Certifications</h3>
+                <p>Industry-recognized certifications that validate expertise and demonstrate commitment to professional standards. Gain credentials that open doors and build credibility.</p>
+                <ul>
+                    <li>OHS certifications</li>
+                    <li>Quality management systems</li>
+                    <li>Project management credentials</li>
+                    <li>Industry-specific qualifications</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <h3>Workplace Safety Programs</h3>
+                <p>Comprehensive safety training designed to create safer work environments and reduce workplace incidents. Protect your team and comply with regulatory requirements.</p>
+                <ul>
+                    <li>Risk assessment training</li>
+                    <li>Emergency response procedures</li>
+                    <li>Personal protective equipment</li>
+                    <li>Safety culture development</li>
+                </ul>
+            </div>
+            <div class="service-card">
+                <h3>Leadership Development</h3>
+                <p>Management and leadership training to develop the next generation of industry leaders and supervisors. Build stronger teams and drive organizational success.</p>
+                <ul>
+                    <li>Team management skills</li>
+                    <li>Project leadership</li>
+                    <li>Performance management</li>
+                    <li>Change management</li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+{% block footer %}{{ block.super }}{% endblock %}
