@@ -1,0 +1,35 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+{% load static %}
+<link rel="stylesheet" href="{% static 'css/admin-dashboard.css' %}">
+<div class="dashboard-header">
+    <img src="{% static 'img/Bakone logo.png' %}" alt="Logo" style="height:60px;">
+    <h2>Upload Documents</h2>
+</div>
+<div class="admin-panel" style="max-width:520px;">
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <div style="margin-bottom:1.5rem;">
+            {{ form.title.label_tag }}<br>
+            {{ form.title }}
+        </div>
+        <div style="margin-bottom:1.5rem;">
+            <label for="id_department">Choose Folder (Department):</label><br>
+            {{ form.department }}
+        </div>
+        <div style="margin-bottom:1.5rem;">
+            {{ form.new_department.label_tag }}<br>
+            {{ form.new_department }}
+            <small>Or create a new folder (department)</small>
+        </div>
+        <div style="margin-bottom:1.5rem;">
+            {{ form.file.label_tag }}<br>
+            <input type="file" name="file" multiple required id="id_file">
+            <small>You can select multiple files</small>
+        </div>
+        <button type="submit" class="admin-upload-btn">Upload</button>
+        <a href="{% url 'admin_dashboard:dashboard_home' %}" class="admin-django-btn">Back to Dashboard</a>
+    </form>
+</div>
+{% endblock %}

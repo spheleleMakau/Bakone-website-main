@@ -1,0 +1,50 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/admin-dashboard.css' %}">
+<div class="dashboard-header">
+    <img src="{% static 'img/Bakone logo.png' %}" alt="Logo" style="height:60px;">
+    <h2>Admin Document Management</h2>
+</div>
+<div style="margin: 1.5rem 0; display: flex; gap: 1rem; align-items: center;">
+    <a class="admin-upload-btn" href="{% url 'admin_dashboard:upload_document' %}">Upload Documents</a>
+    <a class="admin-django-btn" href="/admin/">Django Admin</a>
+</div>
+<div class="admin-panel">
+    {% regroup documents by department as department_list %}
+    {% for group in department_list %}
+    <div style="margin-bottom:2.5rem;">
+        <h3 style="color:#218c74;">
+            <a href="{% url 'admin_dashboard:folder_view' group.list.0.department.id %}" style="color:#218c74;text-decoration:underline;">{{ group.grouper }}</a>
+        </h3>
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>File Name</th>
+                    <th>Uploaded At</th>
+                    <th>Uploaded By</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for doc in group.list %}
+            <tr>
+                <td>{{ doc.title }}</td>
+                <td>{{ doc.file.name|slice:'14:' }}</td>
+                <td>{{ doc.uploaded_at|date:'Y-m-d H:i' }}</td>
+                <td>{{ doc.uploaded_by }}</td>
+                <td class="admin-actions">
+                    <a href="{% url 'admin_dashboard:download_document' doc.id %}">Download</a>
+                    <a href="{% url 'admin_dashboard:scan_document' doc.id %}">Scan</a>
+                </td>
+            </tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
+    {% empty %}
+    <p>No documents uploaded yet.</p>
+    {% endfor %}
+</div>
+{% endblock %}

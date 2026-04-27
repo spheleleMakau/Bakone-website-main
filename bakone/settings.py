@@ -20,6 +20,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'bakone.admin_dashboard',
 ]
 
 
@@ -36,7 +37,9 @@ MIDDLEWARE = [
 ]
 
 
+
 # URLS / WSGI
+LOGIN_REDIRECT_URL = '/secure-admin-portal/'
 ROOT_URLCONF = 'bakone.urls'
 WSGI_APPLICATION = 'bakone.wsgi.application'
 
