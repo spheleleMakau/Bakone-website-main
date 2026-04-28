@@ -5,9 +5,10 @@ import dj_database_url
 BASE_DIR = Path(__file__).resolve().parent.parent
 
 # SECURITY
-SECRET_KEY = os.environ.get('SECRET_KEY', 'unsafe-dev-key')
 
-DEBUG = os.environ.get('DEBUG', 'True') == 'True'
+# Use Render's environment variable names
+SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'unsafe-dev-key')
+DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
 
 ALLOWED_HOSTS = ['.onrender.com', 'localhost', '127.0.0.1']
 
