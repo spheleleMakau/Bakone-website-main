@@ -9,8 +9,19 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 # Use Render's environment variable names
 SECRET_KEY = os.environ.get('DJANGO_SECRET_KEY', 'unsafe-dev-key')
 DEBUG = os.environ.get('DJANGO_DEBUG', 'True') == 'True'
+RENDER_EXTERNAL_HOSTNAME = os.environ.get('RENDER_EXTERNAL_HOSTNAME')
 
 ALLOWED_HOSTS = ['.onrender.com', 'localhost', '127.0.0.1']
+if RENDER_EXTERNAL_HOSTNAME:
+    ALLOWED_HOSTS.append(RENDER_EXTERNAL_HOSTNAME)
+
+CSRF_TRUSTED_ORIGINS = []
+if RENDER_EXTERNAL_HOSTNAME:
+    CSRF_TRUSTED_ORIGINS.append(f'https://{RENDER_EXTERNAL_HOSTNAME}')
+
+SECURE_PROXY_SSL_HEADER = ('HTTP_X_FORWARDED_PROTO', 'https')
+SESSION_COOKIE_SECURE = not DEBUG
+CSRF_COOKIE_SECURE = not DEBUG
 
 
 # APPLICATIONS
@@ -41,6 +52,7 @@ MIDDLEWARE = [
 
 # URLS / WSGI
 LOGIN_REDIRECT_URL = '/secure-admin-portal/'
+LOGIN_URL = '/accounts/login/'
 ROOT_URLCONF = 'bakone.urls'
 WSGI_APPLICATION = 'bakone.wsgi.application'
 
