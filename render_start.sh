@@ -7,6 +7,9 @@ python manage.py migrate --noinput
 echo "Verifying auth migrations..."
 python manage.py showmigrations auth
 
+echo "Creating superuser if needed..."
+python manage.py create_admin
+
 echo "Checking auth_user table existence..."
 python - <<'PY'
 import os
@@ -16,7 +19,7 @@ django.setup()
 from django.db import connection
 with connection.cursor() as c:
     c.execute('SELECT 1 FROM auth_user LIMIT 1')
-    print('auth_user table verified')
+    print('✓ auth_user table verified')
 PY
 
 echo "Collecting static files..."
