@@ -6,6 +6,7 @@ services:
     startCommand: |
       set -e
       python manage.py migrate --noinput
+      python manage.py showmigrations auth
       python manage.py collectstatic --noinput
       gunicorn bakone.wsgi:application
     envVars:
