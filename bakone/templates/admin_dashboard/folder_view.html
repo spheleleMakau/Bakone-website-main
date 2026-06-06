@@ -3,44 +3,56 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/admin-dashboard.css' %}">
 <div class="dashboard-header">
-    <img src="{% static 'img/Bakone logo.png' %}" alt="Logo" style="height:60px;">
-    <h2>{{ department.name }} Documents</h2>
+    <img src="{% static 'img/Bakone logo.png' %}" alt="Logo" class="dashboard-logo">
+    <div>
+        <h2>{{ department.name }} Folder</h2>
+        <p>View, move, or delete documents in this folder.</p>
+    </div>
 </div>
-<div style="margin: 1.5rem 0; display: flex; gap: 1rem; align-items: center;">
-    <a class="admin-upload-btn" href="{% url 'admin_dashboard:upload_document' %}">Upload Documents</a>
-    <a class="admin-django-btn" href="/admin/">Django Admin</a>
-    <a class="admin-django-btn" href="{% url 'admin_dashboard:dashboard_home' %}">All Folders</a>
+<div class="dashboard-toolbar">
+    <div class="toolbar-links">
+        <a class="admin-upload-btn" href="{% url 'admin_dashboard:upload_document' %}">Upload Documents</a>
+        <a class="admin-django-btn" href="/admin/">Django Admin</a>
+        <a class="admin-django-btn" href="{% url 'admin_dashboard:dashboard_home' %}">All Folders</a>
+    </div>
+    <div class="sort-links">
+        <span>Sort by:</span>
+        <a href="?sort=date" class="{% if sort == 'date' %}active{% endif %}">Newest</a>
+        <a href="?sort=oldest" class="{% if sort == 'oldest' %}active{% endif %}">Oldest</a>
+        <a href="?sort=name" class="{% if sort == 'name' %}active{% endif %}">Name</a>
+    </div>
 </div>
 <div class="admin-panel">
-    <table class="admin-table">
-        <thead>
+    <div class="table-responsive">
+        <table class="admin-table">
+            <thead>
+                <tr>
+                    <th>Title</th>
+                    <th>File Name</th>
+                    <th>Uploaded At</th>
+                    <th>Uploaded By</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+            {% for doc in documents %}
             <tr>
-                <th>Title</th>
-                <th>File Name</th>
-                <th>Uploaded At</th>
-                <th>Uploaded By</th>
-                <th>Actions</th>
+                <td>{{ doc.title }}</td>
+                <td>{{ doc.file.name|slice:'14:' }}</td>
+                <td>{{ doc.uploaded_at|date:'Y-m-d H:i' }}</td>
+                <td>{{ doc.uploaded_by }}</td>
+                <td class="admin-actions">
+                    <a href="{% url 'admin_dashboard:view_document' doc.id %}">View</a>
+                    <a href="{% url 'admin_dashboard:download_document' doc.id %}">Download</a>
+                    <a href="{% url 'admin_dashboard:move_document' doc.id %}">Move</a>
+                    <a href="{% url 'admin_dashboard:delete_document' doc.id %}">Delete</a>
+                </td>
             </tr>
-        </thead>
-        <tbody>
-        {% for doc in documents %}
-        <tr>
-            <td>{{ doc.title }}</td>
-            <td>{{ doc.file.name|slice:'14:' }}</td>
-            <td>{{ doc.uploaded_at|date:'Y-m-d H:i' }}</td>
-            <td>{{ doc.uploaded_by }}</td>
-            <td class="admin-actions">
-                <a href="{% url 'admin_dashboard:download_document' doc.id %}">Download</a>
-                <a href="{% url 'admin_dashboard:scan_document' doc.id %}">Scan</a>
-                <a href="{% url 'admin_dashboard:delete_document' doc.id %}">Delete</a>
-                <a href="{% url 'admin_dashboard:replace_document' doc.id %}">Replace</a>
-                <a href="{% url 'admin_dashboard:move_document' doc.id %}">Move</a>
-            </td>
-        </tr>
-        {% empty %}
-        <tr><td colspan="5">No documents in this folder.</td></tr>
-        {% endfor %}
-        </tbody>
-    </table>
+            {% empty %}
+            <tr><td colspan="5">No documents in this folder.</td></tr>
+            {% endfor %}
+            </tbody>
+        </table>
+    </div>
 </div>
 {% endblock %}

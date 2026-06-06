@@ -33,6 +33,13 @@
         </div>
     </nav>
     {% endblock %}
+    {% if messages %}
+    <div class="global-messages">
+        {% for message in messages %}
+            <div class="message {{ message.tags }}">{{ message }}</div>
+        {% endfor %}
+    </div>
+    {% endif %}
     <main>
         {% block content %}{% endblock %}
     </main>

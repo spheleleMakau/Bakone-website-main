@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/admin-dashboard.css' %}">
+<div class="dashboard-header">
+    <img src="{% static 'img/Bakone logo.png' %}" alt="Logo" class="dashboard-logo">
+    <div>
+        <h2>Move Document</h2>
+        <p>Move <strong>{{ document.title }}</strong> from <strong>{{ document.department.name }}</strong> to another folder.</p>
+    </div>
+</div>
+<div class="admin-panel" style="max-width: 520px;">
+    <form method="post">
+        {% csrf_token %}
+        {{ form.non_field_errors }}
+        <div style="margin-bottom: 1rem;">
+            {{ form.target_department.label_tag }}<br>
+            {{ form.target_department }}
+        </div>
+        <div style="margin-bottom: 1rem;">
+            {{ form.new_department.label_tag }}<br>
+            {{ form.new_department }}
+        </div>
+        <button type="submit" class="admin-upload-btn">Move Document</button>
+        <a href="{% url 'admin_dashboard:folder_view' document.department.id %}" class="admin-django-btn">Cancel</a>
+    </form>
+</div>
+{% endblock %}

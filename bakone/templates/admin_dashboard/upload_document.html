@@ -1,35 +1,39 @@
 {% extends 'base.html' %}
 {% load static %}
 {% block content %}
-{% load static %}
 <link rel="stylesheet" href="{% static 'css/admin-dashboard.css' %}">
 <div class="dashboard-header">
-    <img src="{% static 'img/Bakone logo.png' %}" alt="Logo" style="height:60px;">
-    <h2>Upload Documents</h2>
+    <img src="{% static 'img/Bakone logo.png' %}" alt="Logo" class="dashboard-logo">
+    <div>
+        <h2>Upload Documents</h2>
+        <p>Upload files to a folder, or create a new folder while uploading.</p>
+    </div>
 </div>
-<div class="admin-panel" style="max-width:520px;">
-    <form method="post" enctype="multipart/form-data">
+<div class="admin-panel" style="max-width: 620px; margin: 0 auto;">
+    <form method="post" enctype="multipart/form-data" class="folder-form">
         {% csrf_token %}
-        <div style="margin-bottom:1.5rem;">
-            {{ form.title.label_tag }}<br>
+        <div class="form-row">
+            {{ form.title.label_tag }}
             {{ form.title }}
         </div>
-        <div style="margin-bottom:1.5rem;">
-            <label for="id_department">Choose Folder (Department):</label><br>
+        <div class="form-row">
+            <label for="id_department">Choose Folder (Department)</label>
             {{ form.department }}
         </div>
-        <div style="margin-bottom:1.5rem;">
-            {{ form.new_department.label_tag }}<br>
+        <div class="form-row">
+            {{ form.new_department.label_tag }}
             {{ form.new_department }}
-            <small>Or create a new folder (department)</small>
+            <span class="help-text">Or create a new folder (department).</span>
         </div>
-        <div style="margin-bottom:1.5rem;">
-            {{ form.file.label_tag }}<br>
+        <div class="form-row">
+            {{ form.file.label_tag }}
             <input type="file" name="file" multiple required id="id_file">
-            <small>You can select multiple files</small>
+            <span class="help-text">You can select multiple files at once.</span>
         </div>
-        <button type="submit" class="admin-upload-btn">Upload</button>
-        <a href="{% url 'admin_dashboard:dashboard_home' %}" class="admin-django-btn">Back to Dashboard</a>
+        <div class="button-group">
+            <button type="submit" class="admin-upload-btn">Upload</button>
+            <a href="{% url 'admin_dashboard:dashboard_home' %}" class="admin-django-btn">Back to Dashboard</a>
+        </div>
     </form>
 </div>
 {% endblock %}

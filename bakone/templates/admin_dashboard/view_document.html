@@ -1,0 +1,32 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/admin-dashboard.css' %}">
+<div class="dashboard-header">
+    <img src="{% static 'img/Bakone logo.png' %}" alt="Logo" class="dashboard-logo">
+    <div>
+        <h2>{{ document.title }}</h2>
+        <p>Folder: <strong>{{ document.department.name }}</strong> · Uploaded: {{ document.uploaded_at|date:'Y-m-d H:i' }} · By: {{ document.uploaded_by }}</p>
+    </div>
+</div>
+<div class="dashboard-toolbar">
+    <div class="toolbar-links">
+        <a class="admin-upload-btn" href="{% url 'admin_dashboard:download_document' document.id %}">Download</a>
+        <a class="admin-django-btn" href="{% url 'admin_dashboard:folder_view' document.department.id %}">Back to Folder</a>
+        <a class="admin-django-btn" href="{% url 'admin_dashboard:dashboard_home' %}">Back to Dashboard</a>
+    </div>
+</div>
+<div class="admin-panel">
+    {% if previewable %}
+    <div class="document-preview-wrapper">
+        <iframe src="{{ preview_url }}" class="document-preview" title="Document preview"></iframe>
+    </div>
+    {% else %}
+    <div class="file-preview-notice">
+        <p>This file type cannot be previewed inside the browser reliably.</p>
+        <p>Use the button below to download or open it in a compatible application.</p>
+        <a class="admin-upload-btn" href="{% url 'admin_dashboard:download_document' document.id %}">Download Document</a>
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

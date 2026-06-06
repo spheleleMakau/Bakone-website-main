@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+{% load static %}
+{% block content %}
+<link rel="stylesheet" href="{% static 'css/admin-dashboard.css' %}">
+<div class="dashboard-header">
+    <img src="{% static 'img/Bakone logo.png' %}" alt="Logo" class="dashboard-logo">
+    <div>
+        <h2>Delete Document</h2>
+        <p>Are you sure you want to permanently delete <strong>{{ document.title }}</strong>?</p>
+    </div>
+</div>
+<div class="admin-panel" style="max-width: 520px;">
+    <p><strong>Folder:</strong> {{ document.department.name }}</p>
+    <p><strong>File:</strong> {{ document.file.name|slice:'14:' }}</p>
+    <form method="post">
+        {% csrf_token %}
+        <button type="submit" class="admin-django-btn">Delete Permanently</button>
+        <a href="{% url 'admin_dashboard:folder_view' document.department.id %}" class="admin-upload-btn">Cancel</a>
+    </form>
+</div>
+{% endblock %}

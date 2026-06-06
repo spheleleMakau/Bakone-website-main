@@ -31,6 +31,48 @@ class CompanyDocumentForm(forms.ModelForm):
                 raise ValidationError(f'A folder named "{new_department}" already exists.')
         return cleaned_data
 
-    # No file type restriction, allow any file
     def clean_file(self):
         return self.cleaned_data.get('file', False)
+
+
+class DepartmentForm(forms.ModelForm):
+    class Meta:
+        model = Department
+        fields = ['name']
+        labels = {
+            'name': 'New Folder Name',
+        }
+
+    def clean_name(self):
+        name = self.cleaned_data.get('name', '').strip()
+        if Department.objects.filter(name__iexact=name).exists():
+            raise ValidationError('A folder with that name already exists.')
+        return name
+
+
+class DocumentMoveForm(forms.Form):
+    target_department = forms.ModelChoiceField(
+        queryset=Department.objects.none(),
+        required=False,
+        label='Move to existing folder'
+    )
+    new_department = forms.CharField(max_length=100, required=False, label='Or create a new folder')
+
+    def __init__(self, *args, **kwargs):
+        current_department = kwargs.pop('current_department', None)
+        super().__init__(*args, **kwargs)
+        queryset = Department.objects.all().order_by('name')
+        if current_department:
+            queryset = queryset.exclude(pk=current_department.pk)
+        self.fields['target_department'].queryset = queryset
+        self.fields['target_department'].empty_label = 'Select destination folder'
+
+    def clean(self):
+        cleaned_data = super().clean()
+        target_department = cleaned_data.get('target_department')
+        new_department = cleaned_data.get('new_department')
+        if not target_department and not new_department:
+            raise ValidationError('Please choose an existing folder or enter a new one.')
+        if new_department and Department.objects.filter(name__iexact=new_department.strip()).exists():
+            raise ValidationError('A folder with that name already exists.')
+        return cleaned_data

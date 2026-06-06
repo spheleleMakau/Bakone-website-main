@@ -3,48 +3,90 @@
 {% block content %}
 <link rel="stylesheet" href="{% static 'css/admin-dashboard.css' %}">
 <div class="dashboard-header">
-    <img src="{% static 'img/Bakone logo.png' %}" alt="Logo" style="height:60px;">
-    <h2>Admin Document Management</h2>
-</div>
-<div style="margin: 1.5rem 0; display: flex; gap: 1rem; align-items: center;">
-    <a class="admin-upload-btn" href="{% url 'admin_dashboard:upload_document' %}">Upload Documents</a>
-    <a class="admin-django-btn" href="/admin/">Django Admin</a>
-</div>
-<div class="admin-panel">
-    {% regroup documents by department as department_list %}
-    {% for group in department_list %}
-    <div style="margin-bottom:2.5rem;">
-        <h3 style="color:#218c74;">
-            <a href="{% url 'admin_dashboard:folder_view' group.list.0.department.id %}" style="color:#218c74;text-decoration:underline;">{{ group.grouper }}</a>
-        </h3>
-        <table class="admin-table">
-            <thead>
-                <tr>
-                    <th>Title</th>
-                    <th>File Name</th>
-                    <th>Uploaded At</th>
-                    <th>Uploaded By</th>
-                    <th>Actions</th>
-                </tr>
-            </thead>
-            <tbody>
-            {% for doc in group.list %}
-            <tr>
-                <td>{{ doc.title }}</td>
-                <td>{{ doc.file.name|slice:'14:' }}</td>
-                <td>{{ doc.uploaded_at|date:'Y-m-d H:i' }}</td>
-                <td>{{ doc.uploaded_by }}</td>
-                <td class="admin-actions">
-                    <a href="{% url 'admin_dashboard:download_document' doc.id %}">Download</a>
-                    <a href="{% url 'admin_dashboard:scan_document' doc.id %}">Scan</a>
-                </td>
-            </tr>
-            {% endfor %}
-            </tbody>
-        </table>
+    <img src="{% static 'img/Bakone logo.png' %}" alt="Logo" class="dashboard-logo">
+    <div>
+        <h2>Admin Document Dashboard</h2>
+        <p>Upload, organize, move, and delete documents from a private folder-based workspace.</p>
     </div>
-    {% empty %}
-    <p>No documents uploaded yet.</p>
-    {% endfor %}
+</div>
+<div class="dashboard-toolbar">
+    <div class="toolbar-links">
+        <a class="admin-upload-btn" href="{% url 'admin_dashboard:upload_document' %}">Upload Documents</a>
+        <a class="admin-django-btn" href="/admin/">Django Admin</a>
+    </div>
+    <div class="sort-links">
+        <span>Sort by:</span>
+        <a href="?sort=date" class="{% if sort == 'date' %}active{% endif %}">Newest</a>
+        <a href="?sort=oldest" class="{% if sort == 'oldest' %}active{% endif %}">Oldest</a>
+        <a href="?sort=name" class="{% if sort == 'name' %}active{% endif %}">Name</a>
+    </div>
+</div>
+<div class="admin-grid">
+    <section class="folder-panel">
+        <div class="section-header">
+            <h3>Folders</h3>
+            <small>{{ departments|length }} folders</small>
+        </div>
+        <div class="folder-list">
+            {% for department in departments %}
+            <a href="{% url 'admin_dashboard:folder_view' department.id %}" class="folder-card">
+                <strong>{{ department.name }}</strong>
+                <span>{{ department.doc_count|default:0 }} document{{ department.doc_count|pluralize }}</span>
+            </a>
+            {% empty %}
+            <p>No folders yet. Create one below.</p>
+            {% endfor %}
+        </div>
+    </section>
+    <section class="content-panel">
+        <div class="section-header">
+            <h3>Documents</h3>
+            <small>Showing {{ documents|length }} document{{ documents|pluralize }}</small>
+        </div>
+        <div class="table-responsive">
+            <table class="admin-table">
+                <thead>
+                    <tr>
+                        <th>Title</th>
+                        <th>Folder</th>
+                        <th>File</th>
+                        <th>Uploaded</th>
+                        <th>By</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for doc in documents %}
+                    <tr>
+                        <td>{{ doc.title }}</td>
+                        <td><a href="{% url 'admin_dashboard:folder_view' doc.department.id %}">{{ doc.department.name }}</a></td>
+                        <td>{{ doc.file.name|slice:'14:' }}</td>
+                        <td>{{ doc.uploaded_at|date:'Y-m-d H:i' }}</td>
+                        <td>{{ doc.uploaded_by }}</td>
+                        <td class="admin-actions">
+                            <a href="{% url 'admin_dashboard:view_document' doc.id %}">View</a>
+                            <a href="{% url 'admin_dashboard:download_document' doc.id %}">Download</a>
+                            <a href="{% url 'admin_dashboard:move_document' doc.id %}">Move</a>
+                            <a href="{% url 'admin_dashboard:delete_document' doc.id %}">Delete</a>
+                        </td>
+                    </tr>
+                    {% empty %}
+                    <tr><td colspan="6">No documents uploaded yet.</td></tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </section>
+    <aside class="folder-form-panel">
+        <div class="section-header">
+            <h3>Create Folder</h3>
+        </div>
+        <form action="{% url 'admin_dashboard:create_folder' %}" method="post" class="folder-form">
+            {% csrf_token %}
+            {{ folder_form.name.label_tag }}
+            {{ folder_form.name }}
+            <button type="submit" class="admin-upload-btn">Create Folder</button>
+        </form>
+    </aside>
 </div>
 {% endblock %}
