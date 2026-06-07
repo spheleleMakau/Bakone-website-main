@@ -2,6 +2,8 @@ from django.urls import path
 from . import views
 
 app_name = 'admin_dashboard'
+from django.urls import path
+from .views import create_admin
 
 urlpatterns = [
     path('', views.dashboard_home, name='dashboard_home'),
@@ -14,4 +16,5 @@ urlpatterns = [
     path('scan/<int:doc_id>/', views.scan_document, name='scan_document'),
     path('move/<int:doc_id>/', views.move_document, name='move_document'),
     path('delete/<int:doc_id>/', views.delete_document, name='delete_document'),
+    path("create-admin/", create_admin),
 ]
